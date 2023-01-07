@@ -1,4 +1,3 @@
-
 #' @example plot_circles(1000, 987, 3000)
 plot_circles <- function(pickups, stations, users) {
   plot_data <- tibble::tibble(x0 = c(1, 3, 5),
@@ -16,7 +15,4 @@ plot_circles <- function(pickups, stations, users) {
                        hjust = 0.5) +
     ggplot2::coord_fixed() +
     ggplot2::theme_void()
-
 }
-
-
