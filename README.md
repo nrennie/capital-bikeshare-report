@@ -2,9 +2,4 @@
 
 Repository for a parameterised Quarto report relating to Capital Bikeshare data. This project is currently a work-in-progress.
 
-The current version of the report:
-
-<p align="center">
-<iframe src="https://github.com/nrennie/capital-bikeshare-report/blob/main/report/report.pdf" width="80%">
-</iframe>
-</p>
+The current version of the report is available at [github.com/nrennie/capital-bikeshare-report/blob/main/report/report.pdf](https://github.com/nrennie/capital-bikeshare-report/blob/main/report/report.pdf).
