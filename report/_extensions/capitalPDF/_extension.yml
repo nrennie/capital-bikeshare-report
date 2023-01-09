@@ -1,0 +1,14 @@
+title: Capital Bikeshare Report Template
+author: Nicola Rennie
+version: 0.0.1
+contributes:
+  formats:
+    pdf:
+      include-in-header:
+        - capital.tex
+      include-before-body:
+        text: |
+          \pagestyle{empty}
+      toc: false
+      linkcolor: CBred
+      urlcolor: CBred

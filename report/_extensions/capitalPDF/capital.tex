@@ -1,0 +1,69 @@
+\usepackage{geometry}
+\geometry{a4paper, total={170mm,257mm}, left=20mm, top=20mm, bottom=20mm, right=50mm}
+
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{ifthen}
+\usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{fontawesome5}
+\usepackage{academicons}
+\usepackage{enumitem}
+\usepackage{titling} %new
+
+\definecolor{light}{HTML}{E0E0E0}
+\definecolor{dark}{HTML}{808080}
+\definecolor{CBred}{HTML}{db3615}
+
+% set fonts
+\setsansfont{Fraunces}[
+    Path=_extensions/capitalPDF/Fraunces/,
+    Scale=0.9,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    ]
+
+\setmainfont{Commissioner}[
+    Path=_extensions/capitalPDF/Commissioner/,
+    Scale=0.9,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold
+    ]
+
+\titleformat{\subsection}
+  {\sffamily\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+% set font colouts
+\chapterfont{\color{dark}\fontsize{20}{16.8}\selectfont}
+\sectionfont{\color{dark}\fontsize{20}{16.8}\selectfont}
+\subsectionfont{\color{dark}\fontsize{14}{16.8}\selectfont}
+
+% left align title
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  {\sffamily\huge\textbf{\MakeUppercase{\@title}}}
+  \@author
+\end{flushleft}\egroup
+}
+\makeatother
+
+\AddToShipoutPicture{% from package eso-pic: put something to the background
+    % Right bar
+    \AtPageLowerLeft{% start the bar at the bottom right of the page
+        \put(\LenToUnit{\dimexpr\paperwidth-3cm},0){% move it to the top right
+            \color{CBred}\rule{3cm}{\LenToUnit\paperheight}%
+          }%
+     }%
+    % logo
+    \AtPageLowerLeft{% start the bar at the bottom right of the page
+        \put(\LenToUnit{\dimexpr\paperwidth-2.25cm},27.2cm){% move it to the top right
+            \color{blue}\includegraphics[width=1.5cm]{_extensions/capitalPDF/logo.png}
+          }%
+     }%
+}

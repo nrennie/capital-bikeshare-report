@@ -1,0 +1,6 @@
+---
+title: "My Document Title"
+format: capitalPDF-pdf
+---
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 

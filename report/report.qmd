@@ -1,0 +1,55 @@
+---
+title: "Capital Bikeshare"
+format: capitalPDF-pdf
+---
+
+```{r}
+#| label: load-functions
+#| echo: false
+#| eval: true
+#| message: false
+source("../functions/plot_circles.R")
+source("../functions/plot_map.R")
+source("../functions/plot_ts.R")
+source("../functions/plot_top10.R")
+```
+
+```{r}
+#| label: load-data
+#| echo: false
+#| eval: true
+#| message: false
+```
+
+# January 2020
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+```{r}
+#| label: plot-map-top10
+#| echo: false
+#| eval: true
+#| message: false
+#| layout-ncol: 2
+plot_map()
+plot_top10(LETTERS[1:10])
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+```{r}
+#| label: plot-circles
+#| echo: false
+#| eval: true
+#| message: false
+plot_circles(1000, 987, 3000)
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+```{r}
+#| label: plot-ts
+#| echo: false
+#| eval: true
+#| message: false
+```
