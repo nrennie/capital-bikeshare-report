@@ -1,7 +1,23 @@
 ---
 title: "Capital Bikeshare"
 format: capitalPDF-pdf
+params:
+  year: 2018
+  month: 5
 ---
+
+```{r}
+#| label: load-pkgs
+#| echo: false
+#| eval: true
+#| message: false
+library(readr)
+library(dplyr)
+library(lubridate)
+library(showtext)
+library(ggplot2)
+library(stringr)
+```
 
 ```{r}
 #| label: load-functions
@@ -10,8 +26,30 @@ format: capitalPDF-pdf
 #| message: false
 source("../functions/plot_circles.R")
 source("../functions/plot_map.R")
-source("../functions/plot_ts.R")
-source("../functions/plot_top10.R")
+source("../functions/plot_top5.R")
+```
+
+```{r}
+#| label: load-fonts
+#| echo: false
+#| eval: true
+#| message: false
+font_add_google("Commissioner")
+showtext_auto()
+```
+
+```{r}
+#| label: get-date
+#| echo: false
+#| eval: true
+#| message: false
+yr <- as.character(params$year)
+mth <- as.character(params$month)
+if (nchar(mth) == 1) {
+  mth <- paste0("0", mth)
+}
+filename <- paste0(yr, mth, "-capitalbikeshare-tripdata.csv")
+date_str <- paste0(as.character(month(params$month, label = TRUE, abbr = FALSE)), " ", yr)
 ```
 
 ```{r}
@@ -19,37 +57,85 @@ source("../functions/plot_top10.R")
 #| echo: false
 #| eval: true
 #| message: false
+filepath <- paste0("../data/", filename)
+OD_data <- read_csv(filepath)
+stations <- read_csv("../data/capitalbikeshare-locations.csv")
 ```
 
-# January 2020
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+```{r}
+#| label: process-data
+#| echo: false
+#| eval: true
+#| message: false
+n_journeys <- nrow(OD_data)
+members <- table(OD_data$`Member type`)
+n_users <- unname(round(100*members["Member"]/sum(members)))
+station_list <- unique(c(OD_data$`Start station number`, OD_data$`End station number`))
+n_stations <- length(station_list)
+station_list <- station_list[which(station_list %in% stations$TERMINAL_NUMBER)]
+OD_data <- OD_data |> 
+  filter(`Start station number` %in% station_list,
+         `End station number` %in% station_list)
+```
 
 ```{r}
-#| label: plot-map-top10
+#| label: station-data
+#| echo: false
+#| eval: true
+#| message: false
+all_stations <- tibble(station = c(OD_data$`Start station number`, OD_data$`End station number`))
+busiest_stations <- all_stations |> 
+  group_by(station) |> 
+  summarise(n = n()) |> 
+  arrange(desc(n)) |> 
+  slice_max(n, n = 5) 
+
+top5 <- stations |> 
+  select(TERMINAL_NUMBER, ADDRESS) |> 
+  inner_join(busiest_stations, by = c("TERMINAL_NUMBER" = "station")) |> 
+  arrange(desc(n)) |> 
+  pull(ADDRESS)
+```
+
+# `r date_str`
+
+Capital Bikeshare is a bicycle-sharing system which serves the Washington, D.C area. In `r date_str`, a total of `r format(n_journeys, big.mark = ",")` trips were made.
+
+## Key figures
+
+This month's summary statistics are shown in @fig-circles.
+
+```{r}
+#| label: fig-circles
+#| fig-cap: !expr paste0("Key figures for ", date_str) 
+#| echo: false
+#| eval: true
+#| fig-height: 1.5
+#| message: false
+plot_circles(pickups = n_journeys,
+             stations = n_stations,
+             users = n_users)
+```
+
+## Busiest stations
+
+The busiest station this month is located at `r top5[1]`. The top five busiest stations are highlighted on the map below.
+
+```{r}
+#| label: plot-map
 #| echo: false
 #| eval: true
 #| message: false
 #| layout-ncol: 2
-plot_map()
-plot_top10(LETTERS[1:10])
+#| fig-height: 4
+plot_map(stations, top5)
+plot_top5(top5)
 ```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+### Data
 
-```{r}
-#| label: plot-circles
-#| echo: false
-#| eval: true
-#| message: false
-plot_circles(1000, 987, 3000)
-```
+The data included in this report is available from Capital Bikeshare in a public repository at [s3.amazonaws.com/capitalbikeshare-data/index.html](https://s3.amazonaws.com/capitalbikeshare-data/index.html). Further information on any pre-processing performed by Capital Bikeshare is available at [ride.capitalbikeshare.com/system-data](https://ride.capitalbikeshare.com/system-data), and the license agreement at [ride.capitalbikeshare.com/data-license-agreement](https://ride.capitalbikeshare.com/data-license-agreement). 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in sapien eu odio suscipit vehicula. Vivamus nec dictum nisl, quis congue urna. Quisque elit urna, cursus a dignissim nec, pretium at elit. Mauris diam ex, pretium eu orci non, sagittis consectetur dui. Nam a tristique dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+### Processing
 
-```{r}
-#| label: plot-ts
-#| echo: false
-#| eval: true
-#| message: false
-```
+The source code to generate this report can be found at [github.com/nrennie/capital-bikeshare-report](https://github.com/nrennie/capital-bikeshare-report). This report was produced on `r format(Sys.time(), '%b %d, %Y')`.
