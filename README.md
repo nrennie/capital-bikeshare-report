@@ -4,8 +4,7 @@ Automated reporting is a useful tool in reducing the likelihood of human error, 
 
 Reports can be rendered in a variety of formats including HTML documents, PDF reports, Word documents, or presentations. They can be customised and styled according to branding guidelines to give them a more professional finish. Creating *parameterised reports* means that you can use a set of parameters to create different variations of a report. For example, a report that is created every week to reflect company performance. The example below uses a reusable, custom template to create a monthly report of [Capital Bikeshare](https://capitalbikeshare.com/) usage data.
 
-<iframe src="report/report.pdf" width="100%" height="500px">
-</iframe>
+![](report.png)
 
 ## Quarto for automated reporting
 
